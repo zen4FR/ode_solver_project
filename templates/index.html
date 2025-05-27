@@ -1,0 +1,35 @@
+ <!DOCTYPE html>
+<html>
+<head>
+    <title>ODE Solver</title>
+</head>
+<body>
+    <h2>ODE Solver</h2>
+    <form action="/solve" method="post">
+        <label>Initial x (x₀):</label>
+        <input type="text" name="x0"><br><br>
+
+        <label>Initial y (y₀):</label>
+        <input type="text" name="y0"><br><br>
+
+        <label>Step size (h):</label>
+        <input type="text" name="h"><br><br>
+
+        <label>Final x (x_f):</label>
+        <input type="text" name="xf"><br><br>
+
+        <label>Equation (dy/dx = f(x, y)):</label>
+        <input type="text" name="equation"><br><br>
+
+        <label>Method:</label>
+        <select name="method">
+            <option value="euler">Euler</option>
+            <option value="rk4">Runge-Kutta 4</option>
+            <option value="midpoint">Midpoint</option>
+            <option value="heun">Heun</option>
+        </select><br><br>
+
+        <input type="submit" value="Solve">
+    </form>
+</body>
+</html>
