@@ -18,10 +18,6 @@ pip install -r requirements.txt
 python app.py
 Then open http://127.0.0.1:5000 in your browser.
 
-📂 Folder Structure
-csharp
-Copy
-Edit
 ode-solver-web/
 │
 ├── app.py                # Main Flask app
@@ -32,6 +28,7 @@ ode-solver-web/
 ├── static/
 │   └── styles.css        # Optional CSS
 └── exports/              # (Optional) Output CSVs/images
+
 📚 What We Learned
 Flask basics and backend routing
 
