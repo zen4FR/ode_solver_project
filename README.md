@@ -1,54 +1,55 @@
-🔧 How to Run
-bash
-Copy
-Edit
-# Step 1: Clone the repo
+🧮 ODE Solver Web App
+A simple Flask web app to solve first-order differential equations using numerical methods.
+
+✅ Features
+Choose from methods like:
+
+Euler’s Method
+
+Midpoint Method
+
+Heun’s Method
+
+Runge-Kutta (RK4)
+
+Input your equation, initial values, and step size
+
+Get results and plots in your browser
+
+🏁 How to Run
+# Clone the repo
 git clone https://github.com/your-username/ode-solver-web.git
 cd ode-solver-web
 
-# Step 2: Create virtual environment
+# Create virtual environment
 python -m venv venv
-venv\Scripts\activate   # on Windows
-source venv/bin/activate   # on macOS/Linux
+venv\Scripts\activate     # for Windows
+# or
+source venv/bin/activate  # for Mac/Linux
 
-# Step 3: Install dependencies
+# Install requirements
 pip install -r requirements.txt
 
-# Step 4: Run the app
+# Run the app
 python app.py
-Then open http://127.0.0.1:5000 in your browser.
 
+Open http://127.0.0.1:5000 in your browser.
+
+📁 Folder Structure
 ode-solver-web/
 │
-├── app.py                # Main Flask app
-├── requirements.txt      # Python dependencies
-├── templates/
-│   ├── index.html        # Homepage
-│   └── result.html       # Result display (if used)
-├── static/
-│   └── styles.css        # Optional CSS
-└── exports/              # (Optional) Output CSVs/images
+├── app.py                  # Main Flask backend
+├── requirements.txt        # Libraries to install
+├── templates/              # HTML files
+│   ├── index.html
+│   └── form.html
+└── static/                 # CSS or images (optional)
 
-📚 What We Learned
-Flask basics and backend routing
+🔍 Example Input
 
-HTML forms and POST handling
-
-Implementing numerical methods from scratch
-
-Safe use of eval() in Python
-
-Exporting CSV files and dynamic images via web
-
-Working with virtual environments and GitHub collaboration
-
-🧪 Sample Equation
-Try solving:
-
-text
-Copy
-Edit
-dy/dx = x + y
-x₀ = 0, y₀ = 1
-h = 0.1, x_f = 1
+Equation: dy/dx = x + y
+x0 = 0
+y0 = 1
+h = 0.1
+xf = 1
 Method: Euler
