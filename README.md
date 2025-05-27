@@ -18,24 +18,31 @@ Get results and plots in your browser
 
 🏁 How to Run
 # Clone the repo
+```
 git clone https://github.com/your-username/ode-solver-web.git
 cd ode-solver-web
-
+```
 # Create virtual environment
+```
 python -m venv venv
 venv\Scripts\activate     # for Windows
-# or
+ ```
+or
+```
 source venv/bin/activate  # for Mac/Linux
-
+```
 # Install requirements
+```
 pip install -r requirements.txt
-
+```
 # Run the app
+```
 python app.py
-
+```
 Open http://127.0.0.1:5000 in your browser.
 
 📁 Folder Structure
+```
 ode-solver-web/
 │
 ├── app.py                  # Main Flask backend
@@ -44,12 +51,13 @@ ode-solver-web/
 │   ├── index.html
 │   └── form.html
 └── static/                 # CSS or images (optional)
-
+```
 🔍 Example Input
-
+```
 Equation: dy/dx = x + y
 x0 = 0
 y0 = 1
 h = 0.1
 xf = 1
 Method: Euler
+```
