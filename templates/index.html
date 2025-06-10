@@ -1,35 +1,39 @@
- <!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>ODE Solver</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ODE Solver - Results</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h2>ODE Solver</h2>
-    <form action="/solve" method="post">
-        <label>Initial x (x₀):</label>
-        <input type="text" name="x0"><br><br>
+  <div class="container">
+    <h1>Solution Results</h1>
 
-        <label>Initial y (y₀):</label>
-        <input type="text" name="y0"><br><br>
+    <div class="plot">
+      <img src="data:image/png;base64,{{ plot_url }}" alt="ODE Solution Plot" />
+    </div>
 
-        <label>Step size (h):</label>
-        <input type="text" name="h"><br><br>
+    <table>
+      <thead>
+        <tr>
+          <th>x</th>
+          <th>y</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for x, y in zip(x_vals, y_vals) %}
+          <tr>
+            <td>{{ "%.5f"|format(x) }}</td>
+            <td>{{ "%.5f"|format(y) }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
 
-        <label>Final x (x_f):</label>
-        <input type="text" name="xf"><br><br>
-
-        <label>Equation (dy/dx = f(x, y)):</label>
-        <input type="text" name="equation"><br><br>
-
-        <label>Method:</label>
-        <select name="method">
-            <option value="euler">Euler</option>
-            <option value="rk4">Runge-Kutta 4</option>
-            <option value="midpoint">Midpoint</option>
-            <option value="heun">Heun</option>
-        </select><br><br>
-
-        <input type="submit" value="Solve">
-    </form>
+    <div style="text-align:center;">
+      <a href="/" class="button">Solve Another Equation</a>
+    </div>
+  </div>
 </body>
 </html>
