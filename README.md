@@ -51,6 +51,7 @@ ode-solver-web/
 ├── app.py                     # Main Flask app
 ├── solver.py                  # Contains the Euler method function
 ├── utils.py                   # Contains plotting utilities
+├── config.py                  # Optional config/settings (like secret key)
 ├── templates/
 │ ├── form.html                # HTML form for user input
 │ └── index.html               # Results page
