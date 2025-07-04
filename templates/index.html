@@ -8,31 +8,56 @@
 </head>
 <body>
   <div class="container">
-    <h1>Solution Results</h1>
+    <h1>Solution Results ({{ method }} Method)</h1>
 
-    <div class="plot">
-      <img src="data:image/png;base64,{{ plot_url }}" alt="ODE Solution Plot" />
+    <div class="plot-container">
+      <div class="plot">
+        <img src="data:image/png;base64,{{ plot_url }}" alt="ODE Solution Plot" />
+      </div>
     </div>
 
-    <table>
-      <thead>
-        <tr>
-          <th>x</th>
-          <th>y</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for x, y in zip(x_vals, y_vals) %}
-          <tr>
-            <td>{{ "%.5f"|format(x) }}</td>
-            <td>{{ "%.5f"|format(y) }}</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+    {% if comparison_plot %}
+    <div class="plot-container">
+      <h2>Method Comparison</h2>
+      <div class="plot">
+        <img src="data:image/png;base64,{{ comparison_plot }}" alt="Method Comparison Plot" />
+      </div>
+    </div>
+    {% endif %}
 
-    <div style="text-align:center;">
+    <div class="results-container">
+      <h2>Numerical Results</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>x</th>
+              <th>y ({{ method }})</th>
+              {% if exact_errors %}
+              <th>Exact y</th>
+              <th>Error</th>
+              {% endif %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for x, y in zip(x_vals, y_vals) %}
+              <tr>
+                <td>{{ "%.5f"|format(x) }}</td>
+                <td>{{ "%.5f"|format(y) }}</td>
+                {% if exact_errors %}
+                <td>{{ "%.5f"|format(exact_func(x, 0)) }}</td>
+                <td>{{ "%.5e"|format(abs(y - exact_func(x, 0))) }}</td>
+                {% endif %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="action-buttons">
       <a href="/" class="button">Solve Another Equation</a>
+      <a href="/exports/results.csv" class="button" download>Download Results (CSV)</a>
     </div>
   </div>
 </body>

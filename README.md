@@ -33,6 +33,7 @@ venv\Scripts\activate     # for Windows
 or
 ```
 source venv/bin/activate  # for Mac/Linux
+run command deactivate for deactivating virtual environment.
 ```
 ## Install requirements
 ```

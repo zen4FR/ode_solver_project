@@ -9,26 +9,61 @@
 <body>
   <div class="container">
     <h1>ODE Solver</h1>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    
     <form action="/solve" method="POST">
       <label for="equation">Differential Equation (dy/dx = f(x,y))</label>
-      <input type="text" name="equation" id="equation" placeholder="Example: x + y" required />
+      <input type="text" name="equation" id="equation" placeholder="Example: x + y or sin(x)*y" required />
+      <small>Allowed: numbers, x, y, +, -, *, /, ^, (, ), and math functions like sin, cos, exp, log, sqrt</small>
       
-      <label for="x0">Initial x (x₀)</label>
-      <input type="number" step="any" name="x0" id="x0" value="0" required />
+      <div class="form-row">
+        <div class="form-group">
+          <label for="x0">Initial x (x₀)</label>
+          <input type="number" step="any" name="x0" id="x0" value="0" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="y0">Initial y (y₀)</label>
+          <input type="number" step="any" name="y0" id="y0" value="1" required />
+        </div>
+      </div>
       
-      <label for="y0">Initial y (y₀)</label>
-      <input type="number" step="any" name="y0" id="y0" value="1" required />
-      
-      <label for="h">Step size (h)</label>
-      <input type="number" step="any" name="h" id="h" value="0.1" required />
-      
-      <label for="xf">Final x (x𝚏)</label>
-      <input type="number" step="any" name="xf" id="xf" value="1" required />
+      <div class="form-row">
+        <div class="form-group">
+          <label for="h">Step size (h)</label>
+          <input type="number" step="any" name="h" id="h" min="0.0001" value="0.1" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="xf">Final x (x𝚏)</label>
+          <input type="number" step="any" name="xf" id="xf" value="1" required />
+        </div>
+      </div>
       
       <label for="method">Method</label>
       <select name="method" id="method" required>
         <option value="Euler">Euler</option>
+        <option value="Midpoint">Midpoint</option>
+        <option value="Heun">Heun</option>
+        <option value="RK4" selected>Runge-Kutta 4 (RK4)</option>
+        <option value="RK4 Adaptive">RK4 Adaptive</option>
       </select>
+      
+      <div class="form-option">
+        <input type="checkbox" name="compare_methods" id="compare_methods">
+        <label for="compare_methods">Compare multiple methods</label>
+      </div>
+      
+      <label for="exact">Exact Solution (optional, for comparison)</label>
+      <input type="text" name="exact" id="exact" placeholder="Example: exp(x) - x - 1">
+      <small>If known, enter y(x) as a function of x only</small>
       
       <button type="submit">Solve</button>
     </form>
