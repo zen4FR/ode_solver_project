@@ -6,6 +6,8 @@ import io
 import base64
 import csv
 import numpy as np
+
+
 def create_plot(x_vals, y_vals, method, exact_func=None):
     """Create solution plot with optional exact solution"""
     plt.figure(figsize=(10, 6))
@@ -67,7 +69,7 @@ def create_comparison_plot(results, exact_func=None):
 
 def save_results_to_csv(x_vals, y_vals):
     """Save results to CSV file"""
->>>>>>> 52c414d ( completed the project)
+
     with open('exports/results.csv', 'w', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(['x', 'y'])
