@@ -3,7 +3,7 @@ from solver import euler_method, midpoint_method, heun_method, rk4_method, rk4_a
 from utils import create_plot, create_comparison_plot, save_results_to_csv
 import os
 import secrets
-from math import *
+from math import * # type: ignore
 import re
 
 app = Flask(__name__)
@@ -18,19 +18,28 @@ class Config:
         'pi': pi, 'e': e
     }
 
-def safe_eval_equation(equation):
-    """Safely evaluate the ODE equation"""
-    if not all(c in Config.ALLOWED_EQUATION_CHARS for c in equation):
-        raise ValueError("Invalid characters in equation")
-    
+def safe_eval_ode(equation):
+    """Safely evaluate ODE (allows x and y)"""
+    # Replace common problematic characters
+    equation = equation.replace('−', '-').replace('^', '**').strip()
+
+    # Optional: Debugging log
+    print(f"[DEBUG] Parsed equation: {equation}")
+
+    # Evaluation test
     try:
-        code = compile(equation, '<string>', 'eval')
-        for name in code.co_names:
-            if name not in Config.ALLOWED_FUNCTIONS and name not in ['x', 'y']:
-                raise ValueError(f"Use of '{name}' not allowed")
-        return lambda x, y: eval(code, {'__builtins__': {}}, {**Config.ALLOWED_FUNCTIONS, 'x': x, 'y': y})
+        test_x, test_y = 1.0, 1.0
+        result = eval(equation, {'__builtins__': None}, {
+            'x': test_x, 'y': test_y,
+            **Config.ALLOWED_FUNCTIONS
+        })
+        return lambda x, y: eval(equation, {'__builtins__': None}, {
+            'x': x, 'y': y,
+            **Config.ALLOWED_FUNCTIONS
+        })
     except Exception as e:
-        raise ValueError(f"Invalid equation: {str(e)}")
+        raise ValueError(f"Invalid ODE: {str(e)}")
+
 
 @app.route('/')
 def home():
@@ -55,13 +64,13 @@ def solve():
             raise ValueError("Final x must be greater than initial x")
 
         # Safe equation parsing
-        f = safe_eval_equation(equation)
+        f = safe_eval_ode(equation)
         
         # Exact solution parsing if provided
         exact_func = None
         if exact_solution:
             try:
-                exact_func = safe_eval_equation(exact_solution)
+                exact_func = safe_eval_ode(exact_solution)
             except ValueError as e:
                 app.logger.warning(f"Exact solution error: {str(e)}")
 
