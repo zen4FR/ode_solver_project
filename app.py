@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request, flash, redirect, url_for
+from flask import send_from_directory
 from solver import euler_method, midpoint_method, heun_method, rk4_method, rk4_adaptive
 from utils import create_plot, create_comparison_plot, save_results_to_csv
+from utils import save_plot_to_file
+import time
 import os
 import secrets
 from math import * # type: ignore
@@ -98,14 +101,21 @@ def solve():
 
         # Generate plots
         plot_url = create_plot(results[method][0], results[method][1], method, exact_func)
+
+        # Save the output.png file
+        save_plot_to_file(results[method][0], results[method][1], method, exact_func, filepath='static/output.png')
+
         
         # Add comparison plot if needed
         comparison_plot = None
         if len(results) > 1:
             comparison_plot = create_comparison_plot(results, exact_func)
         
-        # Save results
-        save_results_to_csv(results[method][0], results[method][1])
+ # Save the output image file
+        save_plot_to_file(results[method][0], results[method][1], method, exact_func)
+
+# Pass a timestamp to force browser refresh (cache busting)
+        timestamp = int(time.time())
 
         return render_template('index.html', 
                             plot_url=plot_url,
@@ -113,7 +123,8 @@ def solve():
                             x_vals=results[method][0],
                             y_vals=results[method][1],
                             method=method,
-                            exact_errors=exact_func is not None)
+                            exact_errors=exact_func is not None,
+                            timestamp=timestamp)
 
     except ValueError as e:
         flash(str(e), 'error')
@@ -122,6 +133,11 @@ def solve():
         flash("An unexpected error occurred", 'error')
         app.logger.error(f"Unexpected error: {str(e)}", exc_info=True)
         return redirect(url_for('home'))
+
+
+@app.route('/exports/<path:filename>')
+def download_file(filename):
+    return send_from_directory('exports', filename, as_attachment=True)
 
 if __name__ == '__main__':
     if app.config['SECRET_KEY'].startswith('dev-'):
